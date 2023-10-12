@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body{
+            height: 100vh;
+            width: 100%;
+            display: grid;
+            place-items: center;
+            background-color: #bdbdbd;
+        }
+
+        table{
+            background-color: #212121;
+            height: 50%;
+            width: 27%;
+        }
+
+        td{
+            width: 70px;
+        }
+
+        .result{
+            height: 100%;
+            width: 100%;
+            border-radius: 0;
+            border: none;
+            outline: none;
+            font-size: 20px;
+        }
+        .num_btn{
+            width: 100%;
+            height: 100%;
+            border-radius: 0;
+            border-color: transparent;
+            background-color: transparent;
+            color: white;
+        }
+
+        .clearall{
+            width: 100%;
+            height: 100%;
+            border-radius: 0;
+            border-color: #129688;
+            background-color: #129688;
+        }
+
+        .operator{
+            width: 100%;
+            height: 100%;
+            border-radius: 0;
+            background-color: #757575;
+            border-color: #757575;
+        }
+    </style>
+</head>
+<body>
+    <table cellspacing="0" cellpadding="0">
+        <tr>
+            <td colspan="3"><input type='text' class="result" id="result"/></td>
+            <td><button class="clearall" onclick="Ac()">AC</button></td>
+        </tr>
+
+        <tr>
+            <td><button class="num_btn" onclick="show(9)">9</button></td>
+            <td><button class="num_btn" onclick="show(8)">8</button></td>
+            <td><button class="num_btn" onclick="show(7)">7</button></td>
+            <td><button class="operator" onclick="show('+')">+</button></td>
+        </tr>
+
+        <tr>
+            <td><button class="num_btn" onclick="show(4)">4</button></td>
+            <td><button class="num_btn" onclick="show(5)">5</button></td>
+            <td><button class="num_btn" onclick="show(6)">6</button></td>
+            <td><button class="operator" onclick="show('-')">-</button></td>
+        </tr>
+
+        <tr>
+            <td><button class="num_btn" onclick="show(1)">1</button></td>
+            <td><button class="num_btn" onclick="show(2)">2</button></td>
+            <td><button class="num_btn" onclick="show(3)">3</button></td>
+            <td><button class="operator" onclick="show('/')">/</button></td>
+        </tr>
+
+        <tr>
+            <td><button class="num_btn" onclick="show('.')">.</button></td>
+            <td><button class="num_btn" onclick="show(0)">0</button></td>
+            <td><button class="num_btn" onclick="result('=')">=</button></td>
+            <td><button class="operator" onclick="show('*')">*</button></td>
+        </tr>
+    </table>
+
+    <script>
+        function show(number){
+            document.getElementById('result').value+=number
+        }
+
+        function Ac(){
+            document.getElementById('result').value=''
+        }
+
+        function result(){
+            input=eval(document.getElementById('result').value)
+            document.getElementById('result').value=input
+        }
+
+        document.getElementById("result").addEventListener("keydown", function (e) {
+            if (
+                !/[0-9+\-*/.=]|Backspace|Delete|Enter|Escape/.test(e.key) ||
+                (e.key === "." && this.value.includes("."))
+            ) {
+                e.preventDefault();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            width: 100%;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            background-color: #0d99e8;
+            /* margin: 10px 0px; */
+            display: grid;
+            place-items: center;
+        }
+
+        .form-container {
+            width: 40%;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            background: #f9f9f9;
+        }
+
+        .sub_div{
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            gap: 20px;
+        }
+
+        .inner_div{
+            width: 50%;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 0px 10px;
+            height: 40px;
+            margin-bottom: 15px;
+            outline: none;
+        }
+
+        .checkbox-group{
+            display: flex;
+            gap:8px
+        }
+
+        .gender{
+            width: 12px;
+            height: 12px;
+        }
+
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #fff;
+            padding: 20px;
+            border: 1px solid #ccc;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .popup-label {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Survey Form</h1>
+<div class="form-container">
+    <form id="survey-form">
+        <div class="sub_div">
+            <div class="inner_div">
+                <label for="first-name">First Name</label>
+                <input type="text" id="first-name" required>
+            </div>
+            <div class="inner_div">
+                <label for="last-name">Last Name</label>
+                <input type="text" id="last-name" required>
+            </div>
+        </div>
+
+        <div class="sub_div">
+            <div class="inner_div">
+                <label for="date-of-birth">Date of Birth</label>
+                <input type="date" id="date-of-birth" required>
+            </div>
+            <div class="inner_div">
+                <label for="country">Country</label>
+                <select id="country" required>
+                    <option value="USA">United States</option>
+                    <option value="UK">United Kingdom</option>
+                    <option value="Canada">Canada</option>
+                    <option value="India">India</option>
+                    <option value="Germany">Germany</option>
+                    <option value="Japan">Japan</option>
+                    <option value="UK">uK</option>
+                    <option value="Dubai">Dubai</option>
+                    <option value="Kuwait">Kuwait</option>
+                </select>
+            </div>  
+        </div>
+
+        <label>Gender</label>
+        <div class="checkbox-group">
+            <input type="checkbox" id="male" class="gender" name="gender" value="Male">
+            <label for="male">Male</label>
+            <input type="checkbox" id="female" class="gender" name="gender" value="Female">
+            <label for="female">Female</label>
+        </div>
+
+        <label for="profession">Profession</label>
+        <input type="text" id="profession" required>
+
+        <label for="email">Email</label>
+        <input type="email" id="email" required>
+
+        <label for="mobile">Mobile Number</label>
+        <input type="tel" id="mobile" required>
+
+        <button type="button" id="submit-button">Submit</button>
+        <button type="button" id="reset-button">Reset</button>
+    </form>
+</div>
+
+<div class="popup" id="popup">
+    <h2>Form Data</h2>
+    <p><span class="popup-label">First Name:</span> <span id="popup-first-name"></span></p>
+    <p><span class="popup-label">Last Name:</span> <span id="popup-last-name"></span></p>
+    <p><span class="popup-label">Date of Birth:</span> <span id="popup-date-of-birth"></span></p>
+    <p><span class="popup-label">Country:</span> <span id="popup-country"></span></p>
+    <p><span class="popup-label">Gender:</span> <span id="popup-gender"></span></p>
+    <p><span class="popup-label">Profession:</span> <span id="popup-profession"></span></p>
+    <p><span class="popup-label">Email:</span> <span id="popup-email"></span></p>
+    <p><span class="popup-label">Mobile Number:</span> <span id="popup-mobile"></span></p>
+</div>
+
+<script>
+    const form = document.getElementById('survey-form');
+    const popup = document.getElementById('popup');
+    const submitButton = document.getElementById('submit-button');
+    const resetButton = document.getElementById('reset-button');
+
+    submitButton.addEventListener('click', () => {
+        if (form.checkValidity()) {
+            // Get form values
+            const firstName = document.getElementById('first-name').value;
+            const lastName = document.getElementById('last-name').value;
+            const dateOfBirth = document.getElementById('date-of-birth').value;
+            const country = document.getElementById('country').value;
+            const genderElements = document.querySelectorAll('input[name="gender"]:checked');
+            const gender = Array.from(genderElements).map(el => el.value).join(', ');
+            const profession = document.getElementById('profession').value;
+            const email = document.getElementById('email').value;
+            const mobile = document.getElementById('mobile').value;
+
+            // Update popup content
+            document.getElementById('popup-first-name').textContent = firstName;
+            document.getElementById('popup-last-name').textContent = lastName;
+            document.getElementById('popup-date-of-birth').textContent = dateOfBirth;
+            document.getElementById('popup-country').textContent = country;
+            document.getElementById('popup-gender').textContent = gender;
+            document.getElementById('popup-profession').textContent = profession;
+            document.getElementById('popup-email').textContent = email;
+            document.getElementById('popup-mobile').textContent = mobile;
+
+            // Display popup
+            popup.style.display = 'block';
+            form.reset();
+        }
+    });
+
+    document.getElementById('mobile').addEventListener('keydown',(e)=>{
+        let mobile=document.getElementById('mobile').value
+        let number=/\d/
+        if(!(e.key>='0' && e.key<='9' || e.key==='Backspace')){
+            e.preventDefault()
+        }
+    })
+
+    resetButton.addEventListener('click', () => {
+        form.reset();
+    });
+
+    window.addEventListener('click', (event) => {
+        if (event.target === popup) {
+            popup.style.display = 'none';
+        }
+    });
+</script>
+</body>
+</html>
